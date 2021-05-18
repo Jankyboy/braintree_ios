@@ -5,7 +5,7 @@ gem 'rake'
 gem 'git-pairing'
 gem 'highline', :require => 'highline/import'
 gem 'rake_commit'
-gem 'shenzhen'
+gem 'shenzhen', '>= 0.14.3'
 gem 'jazzy', '~>0.13.0'
 gem 'xcpretty'
 
