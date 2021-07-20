@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = "Braintree"
-  s.version          = "4.35.0"
-  s.summary          = "Braintree v.zero: A modern foundation for accepting payments"
+  s.version          = "5.4.2"
+  s.summary          = "Braintree iOS SDK: Helps you accept card and alternative payments in your iOS app."
   s.description      = <<-DESC
                        Braintree is a full-stack payments platform for developers
 
@@ -9,128 +9,89 @@ Pod::Spec.new do |s|
 
                        Check out our development portal at https://developers.braintreepayments.com.
   DESC
-  s.homepage         = "https://www.braintreepayments.com/how-braintree-works"
-  s.documentation_url = "https://developers.braintreepayments.com/ios/start/hello-client"
-  s.screenshots      = "https://raw.githubusercontent.com/braintree/braintree_ios/master/Docs/screenshot.png"
+  s.homepage         = "https://developer.paypal.com/braintree"
+  s.documentation_url = "https://developer.paypal.com/braintree/docs/start/hello-client"
   s.license          = "MIT"
   s.author           = { "Braintree" => "code@getbraintree.com" }
   s.source           = { :git => "https://github.com/braintree/braintree_ios.git", :tag => s.version.to_s }
-  s.social_media_url = "https://twitter.com/braintree"
 
-  s.platform         = :ios, "8.0"
-  s.requires_arc     = true
-  s.compiler_flags = "-Wall -Werror -Wextra"
+  s.platform         = :ios, "12.0"
+  s.compiler_flags   = "-Wall -Werror -Wextra"
+  s.swift_version    = "5.1"
 
-  s.default_subspecs = %w[Core Card PayPal UI]
+  s.default_subspecs = %w[Core Card PayPal]
 
-  s.subspec "Core" do |s|
-    s.source_files  = "BraintreeCore/**/*.{h,m}"
-    s.public_header_files = "BraintreeCore/Public/*.h"
-    s.weak_frameworks = "Contacts"
+  s.subspec "AmericanExpress" do |s|
+    s.source_files  = "Sources/BraintreeAmericanExpress/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeAmericanExpress/Public/BraintreeAmericanExpress/*.h"
+    s.dependency "Braintree/Core"
   end
 
-  s.subspec "Apple-Pay" do |s|
-    s.source_files  = "BraintreeApplePay/**/*.{h,m}"
-    s.public_header_files = "BraintreeApplePay/Public/*.h"
+  s.subspec "ApplePay" do |s|
+    s.source_files  = "Sources/BraintreeApplePay/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeApplePay/Public/BraintreeApplePay/*.h"
     s.dependency "Braintree/Core"
     s.frameworks = "PassKit"
   end
 
   s.subspec "Card" do |s|
-    s.source_files  = "BraintreeCard/**/*.{h,m}"
-    s.public_header_files = "BraintreeCard/Public/*.h"
+    s.source_files  = "Sources/BraintreeCard/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeCard/Public/BraintreeCard/*.h"
     s.dependency "Braintree/Core"
+  end
+
+  s.subspec "Core" do |s|
+    s.source_files  = "Sources/BraintreeCore/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeCore/Public/BraintreeCore/*.h"
   end
 
   s.subspec "DataCollector" do |s|
-    s.source_files = "BraintreeDataCollector/**/*.{h,m}"
-    s.public_header_files = "BraintreeDataCollector/Public/*.h"
-    s.vendored_library = "BraintreeDataCollector/Kount/libDeviceCollectorLibrary.a"
-    s.dependency "Braintree/Core"
-  end
-
-  s.subspec "PayPal" do |s|
-    s.source_files = "BraintreePayPal/*.{h,m}", "BraintreePayPal/Public/*.h"
-    s.public_header_files = "BraintreePayPal/Public/*.h"
-    s.dependency "Braintree/Core"
-    s.dependency "Braintree/PayPalOneTouch"
-  end
-
-  s.subspec "Venmo" do |s|
-    s.source_files = "BraintreeVenmo/**/*.{h,m}"
-    s.public_header_files = "BraintreeVenmo/Public/*.h"
-    s.dependency "Braintree/Core"
-    s.dependency "Braintree/PayPalDataCollector"
-  end
-
-  s.subspec "UI" do |s|
-    s.source_files  = "BraintreeUI/**/*.{h,m}"
-    s.public_header_files = "BraintreeUI/Public/*.h"
-    s.frameworks = "UIKit"
-    s.resource_bundles = {
-      "Braintree-UI-Localization" => ["BraintreeUI/Localization/*.lproj"],
-      "Braintree-Drop-In-Localization" => ["BraintreeUI/Drop-In/Localization/*.lproj"] }
-    s.dependency "Braintree/Card"
-    s.dependency "Braintree/Core"
-  end
-
-  s.subspec "UnionPay" do |s|
-    s.source_files  = "BraintreeUnionPay/**/*.{h,m}"
-    s.public_header_files = "BraintreeUnionPay/Public/*.h"
-    s.frameworks = "UIKit"
-    s.dependency "Braintree/Card"
-    s.dependency "Braintree/Core"
-  end
-
-  s.subspec "3D-Secure" do |s|
-    s.source_files = "Braintree3DSecure/**/*.{h,m}"
-    s.public_header_files = "Braintree3DSecure/Public/*.h"
-    s.frameworks = "UIKit"
-    s.dependency "Braintree/Card"
-    s.dependency "Braintree/Core"
-    s.resource_bundle = { "Braintree-3D-Secure-Localization" => "Braintree3DSecure/Localization/*.lproj" }
-  end
-
-  s.subspec "PayPalOneTouch" do |s|
-    s.source_files = "BraintreePayPal/PayPalOneTouch/**/*.{h,m}"
-    s.public_header_files = "BraintreePayPal/PayPalOneTouch/Public/*.h"
-    s.frameworks = "UIKit"
-    s.weak_frameworks = "SafariServices"
-    s.xcconfig = { "OTHER_LDFLAGS" => "-ObjC -lc++" }
-    s.dependency "Braintree/Core"
-    s.dependency "Braintree/PayPalDataCollector"
-    s.dependency "Braintree/PayPalUtils"
-  end
-
-  s.subspec "PayPalDataCollector" do |s|
-    s.source_files = "BraintreePayPal/PayPalDataCollector/**/*.{h,m}"
-    s.public_header_files = "BraintreePayPal/PayPalDataCollector/Public/*.h", "BraintreePayPal/PayPalDataCollector/Risk/*.h"
-    s.frameworks = "MessageUI", "SystemConfiguration", "CoreLocation", "UIKit"
-    s.vendored_library = "BraintreePayPal/PayPalDataCollector/Risk/libPPRiskMagnesOC.a"
-    s.dependency "Braintree/Core"
-    s.dependency "Braintree/PayPalUtils"
-  end
-
-  s.subspec "PayPalUtils" do |s|
-    s.source_files = "BraintreePayPal/PayPalUtils/**/*.{h,m}"
-    s.public_header_files = "BraintreePayPal/PayPalUtils/Public/*.h"
-    s.frameworks = "MessageUI", "SystemConfiguration", "CoreLocation", "UIKit"
-  end
-
-  s.subspec "AmericanExpress" do |s|
-    s.source_files  = "BraintreeAmericanExpress/**/*.{h,m}"
-    s.public_header_files = "BraintreeAmericanExpress/Public/*.h"
+    s.source_files = "Sources/BraintreeDataCollector/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeDataCollector/Public/BraintreeDataCollector/*.h"
+    s.vendored_frameworks = "Frameworks/KountDataCollector.xcframework"
     s.dependency "Braintree/Core"
   end
 
   s.subspec "PaymentFlow" do |s|
-    s.source_files = "BraintreePaymentFlow/**/*.{h,m}"
-    s.public_header_files = "BraintreePaymentFlow/Public/**/*.h"
-    s.weak_frameworks = "SafariServices"
+    s.source_files = "Sources/BraintreePaymentFlow/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreePaymentFlow/Public/BraintreePaymentFlow/*.h"
     s.dependency "Braintree/Core"
-    s.dependency "Braintree/Card"
-    s.dependency "Braintree/PayPalOneTouch"
-    s.vendored_frameworks = "Frameworks/CardinalMobile.framework"
+    s.dependency "Braintree/PayPalDataCollector"
   end
-end
 
+  s.subspec "PayPal" do |s|
+    s.source_files = "Sources/BraintreePayPal/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreePayPal/Public/BraintreePayPal/*.h"
+    s.dependency "Braintree/Core"
+    s.dependency "Braintree/PayPalDataCollector"
+  end
+
+  s.subspec "PayPalDataCollector" do |s|
+    s.source_files = "Sources/PayPalDataCollector/**/*.{swift}"
+    s.vendored_frameworks = "Frameworks/PPRiskMagnes.xcframework"
+  end
+
+  s.subspec "ThreeDSecure" do |s|
+    s.source_files = "Sources/BraintreeThreeDSecure/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeThreeDSecure/Public/BraintreeThreeDSecure/*.h"
+    s.dependency "Braintree/Card"
+    s.dependency "Braintree/PaymentFlow"
+    s.vendored_frameworks = "Frameworks/CardinalMobile.xcframework"
+  end
+
+  s.subspec "UnionPay" do |s|
+    s.source_files  = "Sources/BraintreeUnionPay/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeUnionPay/Public/BraintreeUnionPay/*.h"
+    s.dependency "Braintree/Card"
+  end
+
+  s.subspec "Venmo" do |s|
+    s.source_files = "Sources/BraintreeVenmo/**/*.{h,m}"
+    s.public_header_files = "Sources/BraintreeVenmo/Public/BraintreeVenmo/*.h"
+    s.dependency "Braintree/Core"
+  end
+
+  # https://github.com/CocoaPods/CocoaPods/issues/10065#issuecomment-694266259
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+end

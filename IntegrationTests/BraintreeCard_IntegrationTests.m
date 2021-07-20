@@ -29,7 +29,11 @@
 - (void)testTokenizeCard_whenCardIsInvalidAndValidationIsEnabled_failsWithExpectedValidationError {
     BTAPIClient *apiClient = [[BTAPIClient alloc] initWithAuthorization:SANDBOX_CLIENT_TOKEN];
     BTCardClient *client = [[BTCardClient alloc] initWithAPIClient:apiClient];
-    BTCard *card = [[BTCard alloc] initWithNumber:@"123" expirationMonth:@"12" expirationYear:Helpers.sharedInstance.futureYear cvv:nil];
+    
+    BTCard *card = [BTCard new];
+    card.number = @"123";
+    card.expirationMonth = @"12";
+    card.expirationYear = Helpers.sharedInstance.futureYear;
     card.shouldValidate = YES;
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Tokenize card"];
@@ -55,6 +59,7 @@
         expect(tokenizedCard.nonce.isANonce).to.beTruthy();
         expect(tokenizedCard.expirationMonth).toNot.beNil();
         expect(tokenizedCard.expirationYear).toNot.beNil();
+        expect(tokenizedCard.cardholderName).toNot.beNil();
         expect(tokenizedCard.binData.prepaid).toNot.beNil();
         expect(tokenizedCard.binData.healthcare).toNot.beNil();
         expect(tokenizedCard.binData.debit).toNot.beNil();
@@ -63,7 +68,7 @@
         expect(tokenizedCard.binData.payroll).toNot.beNil();
         expect(tokenizedCard.binData.issuingBank).toNot.beNil();
         expect(tokenizedCard.binData.countryOfIssuance).toNot.beNil();
-        expect(tokenizedCard.binData.productId).toNot.beNil();
+        expect(tokenizedCard.binData.productID).toNot.beNil();
         expect(tokenizedCard.threeDSecureInfo.liabilityShiftPossible).to.beFalsy();
         expect(tokenizedCard.threeDSecureInfo.liabilityShifted).to.beFalsy();
         expect(tokenizedCard.threeDSecureInfo.wasVerified).to.beFalsy();
@@ -159,6 +164,7 @@
     card.number = @"4111111111111111";
     card.expirationMonth = @"12";
     card.expirationYear = Helpers.sharedInstance.futureYear;
+    card.cardholderName = @"Alyssa Edwards";
     return card;
 }
 

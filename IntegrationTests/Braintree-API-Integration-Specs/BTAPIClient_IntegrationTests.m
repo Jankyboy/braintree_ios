@@ -1,5 +1,5 @@
 #import <BraintreeCore/BraintreeCore.h>
-#import <BraintreeCore/BTAPIClient_Internal.h>
+#import "BTAPIClient_Internal.h"
 #import <XCTest/XCTest.h>
 
 @interface BTAPIClient_IntegrationTests : XCTestCase
@@ -51,6 +51,7 @@
 }
 
 - (void)testFetchConfiguration_withPayPalIDToken_returnsTheConfiguration {
+    XCTSkip("Waiting for updated PPCP merchant credentials");
     XCTestExpectation *expectation = [self expectationWithDescription:@"Fetch ID Token from PPCP sample server; then fetch BT config"];
 
     // NOTE: - This test needs to fetch an active PayPal ID Token

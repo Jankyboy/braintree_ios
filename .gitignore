@@ -26,15 +26,13 @@ Pods
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-Carthage/Checkouts
-Carthage/Build
+Carthage/
+SampleApps/CarthageTest/Carthage
+SampleApps/CarthageTest/Cartfile.resolved
 
-# This file is needed for signing the ipa with our enterprise cert;
-# you can get it from the iOS Developer Center.
-EverybodyVenmo.mobileprovision
-
-# This file should contain your HockeyApp auth
-# token from https://rink.hockeyapp.net/manage/auth_tokens
-.hockeyapp
+# SPM
+.swiftpm
+.build
+SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 *.pid
